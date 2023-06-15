@@ -54,7 +54,7 @@ namespace SezarCrpted.Controllers
             {
                 if (Charts.Contains(key[i]))
                 {
-                    var pop = Charts.IndexOf(key[i]) + count;
+                    var pop = (Charts.IndexOf(key[i]) + count)%26;
 
                     code.Add(Charts[pop]);
                 }
@@ -93,7 +93,15 @@ namespace SezarCrpted.Controllers
             {
                 if (Charts.Contains(key[i]))
                 {
-                    var pop = Charts.IndexOf(key[i]) - count;
+                    var pop = (Charts.IndexOf(key[i]) - count);
+
+                    if(pop >= 0)
+                    {
+                        pop = (Charts.IndexOf(key[i]) - count) % 26;
+                    }
+                    else {
+                        pop=  pop + 26;
+                    }
 
                     code.Add(Charts[pop]);
                 }
