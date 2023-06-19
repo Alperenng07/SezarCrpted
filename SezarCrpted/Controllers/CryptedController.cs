@@ -16,7 +16,7 @@ namespace SezarCrpted.Controllers
     public class CryptedController:ControllerBase
     {
 
-      y
+      
 
 
         private IConfiguration configuration;
