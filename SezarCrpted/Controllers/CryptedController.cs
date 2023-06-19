@@ -16,13 +16,7 @@ namespace SezarCrpted.Controllers
     public class CryptedController:ControllerBase
     {
 
-        List<char> Charts = new List<char>() {
-                      'A', 'B', 'C', 'D', 'E', 'F',
-                        'G', 'H', 'I', 'J', 'K', 'L',
-                        'M', 'N', 'O', 'P', 'Q','R',
-                        'S', 'T', 'U', 'V', 'W','X',
-                        'Y', 'Z'
-                    };
+      y
 
 
         private IConfiguration configuration;
@@ -34,13 +28,20 @@ namespace SezarCrpted.Controllers
        
 
 
-        // [Microsoft.AspNetCore.Mvc.HttpPost]
         [HttpPost("{text}/encrypt")]
      
         public async Task<IActionResult> Encrypt(string text)
         {
+         
 
             int count = configuration.GetValue<int>("itter:count");
+            string satir = configuration.GetValue<string>("itter:harfs");
+
+         
+
+            
+             List<char> Charts = satir.ToCharArray().ToList();
+
 
 
             text = text.ToUpper();
@@ -54,7 +55,7 @@ namespace SezarCrpted.Controllers
             {
                 if (Charts.Contains(key[i]))
                 {
-                    var pop = Charts.IndexOf(key[i]) + count;
+                    var pop = (Charts.IndexOf(key[i]) + count) % 31;
 
                     code.Add(Charts[pop]);
                 }
@@ -73,18 +74,26 @@ namespace SezarCrpted.Controllers
         
         }
 
-      //  [Microsoft.AspNetCore.Mvc.HttpPost]
+      
       [HttpPost("{encryptedText}/decrypt")]
        
         public async Task<IActionResult> Decrypt(string encryptedText)
         {
             // kod…..
 
+            string satir = configuration.GetValue<string>("itter:harfs");
             int count = configuration.GetValue<int>("itter:count");
+            
+
+            List<char> Charts = satir.ToCharArray().ToList();
 
             encryptedText = encryptedText.ToUpper();
             List<char> key = encryptedText.ToCharArray().ToList();
             List<char> code = new List<char>();
+
+
+
+
 
             // kod…..
 
@@ -93,7 +102,16 @@ namespace SezarCrpted.Controllers
             {
                 if (Charts.Contains(key[i]))
                 {
-                    var pop = Charts.IndexOf(key[i]) - count;
+                    var pop = (Charts.IndexOf(key[i]) - count);
+
+                    if (pop >= 0)
+                    {
+                        pop = (Charts.IndexOf(key[i]) - count) % 31;
+                    }
+                    else
+                    {
+                        pop = pop + 31;
+                    }
 
                     code.Add(Charts[pop]);
                 }
